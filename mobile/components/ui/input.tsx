@@ -11,8 +11,9 @@ interface Props {
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
+  onPressIn?: () => void;
 }
-const Input = ({ className, type, onChangeText, value,keyboardType,placeholder, ...props }: Props) => {
+const Input = ({ className, type, onChangeText, value,keyboardType,placeholder,onPressIn, ...props }: Props) => {
   return (
     <TextInput
       value={value}
@@ -25,6 +26,7 @@ const Input = ({ className, type, onChangeText, value,keyboardType,placeholder, 
         className ?? ""
       )}
       placeholderTextColor="#9CA3AF"
+      onPressIn={onPressIn}
       {...props}
     />
   );

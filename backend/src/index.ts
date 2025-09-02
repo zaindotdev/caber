@@ -4,6 +4,9 @@ import { connect } from "./db";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import userRoutes from "./routes/user.routes";
+import { Server } from "http";
+import { Server as IOServer } from "socket.io";
+import { initializeSocketIO } from "./lib/initialize-socket";
 
 dotenv.config({
   path: "./.env",
@@ -19,12 +22,22 @@ app.use(
   })
 );
 
+const httpServer = new Server(app);
+const io = new IOServer(httpServer, {
+  cors: {
+    origin: "http://localhost:8081",
+    credentials: true,
+  },
+});
+
+initializeSocketIO(io);
+app.set("io", io);
 app.use(cookieParser());
 
 app.use("/api/v1/user", userRoutes);
 
 connect().then(() => {
-  app.listen(8080, () => {
+  httpServer.listen(8080, () => {
     console.info("Server started on port 8080");
   });
 });

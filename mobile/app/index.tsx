@@ -1,6 +1,6 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
-import { Link, useRouter, Stack } from "expo-router";
+import { useRouter, Stack } from "expo-router";
 import Logo from "@/components/ui/logo";
 import Button from "@/components/ui/button";
 import { useEffect } from "react";
@@ -17,6 +17,10 @@ const Main = () => {
     }
     fetchToken();
   }, []);
+
+  const handlePress = () => {
+    router.push("/sign-in")
+  }
   return (
     <>
       <Stack.Screen name="main" options={{ headerShown: false }} />
@@ -30,10 +34,8 @@ const Main = () => {
           />
         </View>
         <View>
-          <Button className="py-4">
-            <Link href="/sign-in">
-              <Text className="text-zinc-100">Get Started</Text>
-            </Link>
+          <Button onPress={handlePress} className="py-4">
+            <Text className="text-zinc-100">Get Started</Text>
           </Button>
         </View>
       </View>
