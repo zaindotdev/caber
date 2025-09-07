@@ -7,8 +7,9 @@ interface IDriver {
     lastName: string;
   };
   email: string;
-  otp: number;
-  otp_expiry: Date;
+  password: string;
+  otp: number | null;
+  otp_expiry: Date | null;
   vehicle: mongoose.Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
@@ -37,13 +38,15 @@ const driverSchema = new Schema<IDriver>(
       required: true,
       unique: true,
     },
+    password:{
+      type: String,
+      required: true
+    },
     otp: {
       type: Number,
-      required: true,
     },
     otp_expiry: {
       type: Date,
-      required: true,
     },
     vehicle: {
       type: Schema.Types.ObjectId,

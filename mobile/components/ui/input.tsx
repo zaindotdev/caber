@@ -2,18 +2,32 @@ import { TextInput } from "react-native";
 import React from "react";
 import { cn } from "@/utils/cn";
 
-import type { TextInputProps,KeyboardType } from "react-native";
+import type { TextInputProps, KeyboardTypeOptions } from "react-native";
 
-interface Props {
+interface Props extends TextInputProps {
   className?: string;
   type?: TextInputProps["textContentType"];
-  keyboardType?: KeyboardType
+  keyboardType?: KeyboardTypeOptions;
   value: string;
+  secureTextEntry?: boolean;
   onChangeText: (text: string) => void;
   placeholder?: string;
   onPressIn?: () => void;
+  maxLength?: number;
 }
-const Input = ({ className, type, onChangeText, value,keyboardType,placeholder,onPressIn, ...props }: Props) => {
+
+const Input: React.FC<Props> = ({
+  className,
+  onChangeText,
+  value,
+  keyboardType,
+  placeholder,
+  onPressIn,
+  maxLength,
+  secureTextEntry,
+  type,
+  ...props
+}) => {
   return (
     <TextInput
       value={value}
@@ -27,6 +41,8 @@ const Input = ({ className, type, onChangeText, value,keyboardType,placeholder,o
       )}
       placeholderTextColor="#9CA3AF"
       onPressIn={onPressIn}
+      secureTextEntry={secureTextEntry}
+      maxLength={maxLength}
       {...props}
     />
   );

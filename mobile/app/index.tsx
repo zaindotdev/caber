@@ -5,6 +5,7 @@ import Logo from "@/components/ui/logo";
 import Button from "@/components/ui/button";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Main = () => {
   const router = useRouter();
@@ -19,17 +20,16 @@ const Main = () => {
   }, []);
 
   const handlePress = () => {
-    router.push("/sign-in")
-  }
+    router.push("/sign-in");
+  };
   return (
     <>
       <Stack.Screen name="main" options={{ headerShown: false }} />
-      <View className="flex-1 bg-zinc-200 p-4">
-        <Logo />
+      <SafeAreaView className="flex-1 bg-zinc-200 p-4">
         <View className="flex-1 items-center justify-center mt-8">
           <Image
-            source={require("../assets/images/get-started.jpg")}
-            resizeMode="cover"
+            source={require("../assets/images/get-started.png")}
+            resizeMode="contain"
             style={{ flex: 1, width: "100%" }}
           />
         </View>
@@ -38,7 +38,7 @@ const Main = () => {
             <Text className="text-zinc-100">Get Started</Text>
           </Button>
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
   Easing,
 } from "react-native-reanimated";
+import { AntDesign } from "@expo/vector-icons";
 
 interface ToastProps {
   message: string;
@@ -22,7 +23,7 @@ const Toast = ({
   status,
   onHide,
 }: ToastProps) => {
-  const translateY = useSharedValue(-100);
+  const translateY = useSharedValue(-140);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
@@ -37,7 +38,7 @@ const Toast = ({
 
       const timeout = setTimeout(() => {
         translateY.value = withTiming(
-          -100,
+          -140,
           {
             duration: 400,
             easing: Easing.in(Easing.ease),
@@ -50,18 +51,37 @@ const Toast = ({
 
       return () => clearTimeout(timeout);
     } else {
-      translateY.value = -100;
+      translateY.value = -140;
     }
   }, [isVisible, duration, onHide, translateY]);
 
   if (!isVisible) return null;
 
+  const handlePress = () => {
+    translateY.value = withTiming(
+      -140,
+      {
+        duration: 400,
+        easing: Easing.in(Easing.ease),
+      },
+      () => {
+        if (onHide) onHide();
+      }
+    );
+  };
+
   return (
     <Animated.View
       style={[animatedStyle]}
-      className={`absolute z-50 top-5 left-5 right-5 ${status === "success" ? "bg-green-500/60" : "bg-red-500/60"} p-2 rounded-lg items-start`}
+      className={`absolute z-50 top-5 left-5 right-5 flex-row items-center justify-between gap-2 ${status === "success" ? "bg-green-500" : "bg-red-500"} py-1 px-2 rounded-lg items-start`}
     >
       <Text className="text-white text-base font-medium">{message}</Text>
+      <TouchableOpacity
+        onPress={handlePress}
+        className="bg-red-400 p-2 rounded-full"
+      >
+        <AntDesign name="close" size={20} color="white" />
+      </TouchableOpacity>
     </Animated.View>
   );
 };

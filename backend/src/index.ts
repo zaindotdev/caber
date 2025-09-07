@@ -3,10 +3,14 @@ import dotenv from "dotenv";
 import { connect } from "./db";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import userRoutes from "./routes/user.routes";
 import { Server } from "http";
 import { Server as IOServer } from "socket.io";
 import { initializeSocketIO } from "./lib/initialize-socket";
+
+// Routes
+import userRoutes from "./routes/user.routes";
+import driverRoutes from "./routes/driver.routes";
+import vehicleRoutes from "./routes/vehicle.routes";
 
 dotenv.config({
   path: "./.env",
@@ -28,6 +32,7 @@ const io = new IOServer(httpServer, {
     origin: "http://localhost:8081",
     credentials: true,
   },
+  pingTimeout: 60000, // 1 minute
 });
 
 initializeSocketIO(io);
@@ -35,6 +40,8 @@ app.set("io", io);
 app.use(cookieParser());
 
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/driver", driverRoutes);
+app.use("/api/v1/vehicle", vehicleRoutes);
 
 connect().then(() => {
   httpServer.listen(8080, () => {

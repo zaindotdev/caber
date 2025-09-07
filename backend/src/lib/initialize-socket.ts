@@ -1,12 +1,13 @@
 import { User } from "../models/user.model";
 import jwt from "jsonwebtoken";
 import { Server, Socket } from "socket.io";
-import cookie from "cookie";
 import { events } from "../constants";
 
 export const initializeSocketIO = async (io: Server) => {
+  console.log("Socket initialized");
   return io.on("connection", async (socket: Socket) => {
     try {
+      console.log("Socket connected:", socket.id);
       const token =
         socket.handshake.auth?.token || socket.handshake.headers?.token;
 
